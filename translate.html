@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script>
+      function start() {
+        var text=document.getElementById('text').value;
+        gapi.client.init({
+          'apiKey': 'AIzaSyBqbTX_QVV5ROL-85oogpPWO0skBUDMAoo',
+          'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/translate/v2/rest'],
+        }).then(function() {
+          return gapi.client.language.translations.list({
+            q: text,
+            source: 'en',
+            target: 'ml',
+          });
+        }).then(function(response) {
+          document.getElementById('results').innerHTML=response.result.data.translations[0].translatedText;
+          // console.log(response.result.data.translations[0].translatedText);
+        }, function(reason) {
+          console.log('Error: ' + reason.result.error.message);
+        });
+      };
+
+    </script>
+  </head>
+  <body>
+    <input type="text" id="text" placeholder="Enter text">
+    <input type="button" onclick="gapi.load('client', start)" value="Submit">
+    <div id="results"></div>
+
+  </body>
+</html>
